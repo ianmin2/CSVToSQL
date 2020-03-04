@@ -1,4 +1,4 @@
-##CSVToSQL
+## CSVToSQL
 
 A simplistic script to quickly scaffold postgres compliant SQL from a csv file
 
