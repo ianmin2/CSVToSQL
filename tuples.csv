@@ -1,0 +1,10 @@
+entity_type,entity_name,data_type,data_limits,is_foreign_key,foreign_tuple,foreign_field,extras
+table,quotes						
+,currency,money,,,,not null
+,time,datetime,,,,,default current_timestamp
+,player,bigint,,yes,players,player_id,not null
+end				
+							
+table,players					
+,name,varchar,35,,,not null
+end						
