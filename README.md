@@ -1,6 +1,6 @@
 ## CSVToSQL
 
-A simplistic script to quickly scaffold postgres compliant SQL from a csv file
+A simplistic script to quickly scaffold postgres compliant SQL Schema from a csv file
 
 The `.csv` file should be in the format `entity_type,entity_name,data_type,data_limits,is_foreign_key,foreign_tuple,foreign_field,extras`
 
