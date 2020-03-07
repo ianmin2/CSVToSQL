@@ -30,7 +30,7 @@ function tableViewFormatter(rowData) {
     return `\nCREATE ${rowData[0]} ${rowData[1]} (${primary_key}`;
 }
 
-function convert(filePath) {
+function convert(filePath,fileDestination=`Output.sql`) {
 
     //@ open the file (expects one in the order {entity_type,entity_name,data_type,data_limits,is_foreign_key,foreign_tuple,foreign_field,extras})
     /*
@@ -103,7 +103,7 @@ function convert(filePath) {
                 case "endview":
                 case "noview":
                 case "end":
-                    row_builder += `\n);\n`
+                    row_builder += `\n);\n`                    
                     break;
 
                 case "field":
@@ -112,11 +112,11 @@ function convert(filePath) {
                     break;
             }
 
-            return `${cumulative_value}${row_builder}`;
+            return  row_builder == `\n);\n` ? `${cumulative_value.trim().replace(/\,$/ig,'')}${row_builder}` : `${cumulative_value}${row_builder}`;
 
         }, ``);
 
-    fs.writeFileSync(`Output.sql`, SQLQuery);
+    fs.writeFileSync(fileDestination, SQLQuery);
 
     console.log(`\nDone!\n`);
     // console.dir(SQLQuery);
@@ -124,4 +124,4 @@ function convert(filePath) {
 }
 
 
-convert(`tuples.csv`);
+convert(`schema.csv`);
