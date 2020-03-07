@@ -20,7 +20,7 @@ function fieldFormatter(rowData) {
 
 function tableViewFormatter(rowData) {
     let primary_key = (rowData[0] == "table") ? `\n\t${rowData[1].trim().replace(/s$/i,'')}_id\tbigserial\tPRIMARY KEY\tNOT NULL,` : ``;
-    return `\nCREATE ${rowData[0]} ${rowData[1]} (${primary_key}`;
+    return `\nCREATE ${rowData[0].split(/\s/ig)[0]} ${rowData[1].replace(/\s/ig,"_")} (${primary_key}`;
 }
 
 function convert(filePath) {
