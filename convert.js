@@ -10,7 +10,7 @@ function fieldFormatter(rowData) {
         let type_limit_info = rowData[3] != undefined ? `(${rowData[3]})` : ``;
         let type_info = rowData[2] != undefined ? `\t${rowData[2]}` : ``;
 
-        return `\n\t${rowData[1]}${type_info}${type_limit_info}${foreign_key_associations}${field_extras},`;
+        return `\n\t${rowData[1].toLowerCase().trim().replace(/\s/ig,"_")}${type_info}${type_limit_info}${foreign_key_associations}${field_extras},`;
 
     } else {
         return ``;
