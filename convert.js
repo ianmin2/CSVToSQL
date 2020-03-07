@@ -19,8 +19,12 @@ function fieldFormatter(rowData) {
 }
 
 function tableViewFormatter(rowData) {
-    let primary_key = (rowData[0] == "table") ? `\n\t${rowData[1].trim().replace(/s$/i,'')}_id\tbigserial\tPRIMARY KEY\tNOT NULL,` : ``;
-    return `\nCREATE ${rowData[0].split(/\s/ig)[0]} ${rowData[1].replace(/\s/ig,"_")} (${primary_key}`;
+
+    rowData[0] = rowData[0].trim().split(/\s/ig)[0];
+    rowData[1] = rowData[1].trim().replace(/\s/ig,"_").toLowerCase();
+
+    let primary_key = (rowData[0] == "table") ? `\n\t${rowData[1].replace(/s$/i,'').replace(/ie$/ig,'y')}_id\tbigserial\tPRIMARY KEY\tNOT NULL,` : ``;
+    return `\nCREATE ${rowData[0]} ${rowData[1]} (${primary_key}`;
 }
 
 function convert(filePath) {
