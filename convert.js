@@ -5,6 +5,9 @@ function fieldFormatter(rowData) {
 
     if (rowData[1] != undefined) {
 
+        rowData[5] = rowData[5] != undefined? rowData[5].trim().split(/\s/ig)[0] : rowData[5];
+        rowData[6] = rowData[6] != undefined? rowData[6].trim().replace(/\s/ig,"_").toLowerCase(): rowData[6];
+
         let foreign_key_associations = (rowData[4] != undefined && rowData[5] != undefined && rowData[6] != undefined) ? `\treferences ${rowData[5]}(${rowData[6]})` : ``;
         let field_extras = (rowData[7] != undefined) ? `\t${rowData[7]}` : ``;
         let type_limit_info = rowData[3] != undefined ? `(${rowData[3]})` : ``;
