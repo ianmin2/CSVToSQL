@@ -10,10 +10,10 @@ function fieldFormatter(rowData) {
 
         let foreign_key_associations = (rowData[4] != undefined && rowData[5] != undefined && rowData[6] != undefined) ? `\treferences ${rowData[5]}(${rowData[6]})` : ``;
         let field_extras = (rowData[7] != undefined) ? `\t${rowData[7]}` : ``;
-        let type_limit_info = rowData[3] != undefined ? `(${rowData[3]})` : ``;
+        let type_limit_info = rowData[3] != undefined ? `(${rowData[3].replace(/\"/ig,'')})` : ``;
         let type_info = rowData[2] != undefined ? `\t${rowData[2]}` : ``;
 
-        return `\n\t${rowData[1].toLowerCase().trim().replace(/\s/ig,"_")}${type_info}${type_limit_info}${foreign_key_associations}${field_extras},`;
+        return `\n\t${rowData[1].toLowerCase().trim().replace(/\s/ig,"_")}${type_info}${type_limit_info}${foreign_key_associations}${field_extras.replace(/\"/ig,'')},`;
 
     } else {
         return ``;
@@ -25,6 +25,8 @@ function tableViewFormatter(rowData) {
 
     rowData[0] = rowData[0].trim().split(/\s/ig)[0];
     rowData[1] = rowData[1].trim().replace(/\s/ig,"_").toLowerCase();
+
+    console.log(`\nGenerating table - \t${rowData[1]}\n`);
 
     let primary_key = (rowData[0] == "table") ? `\n\t${rowData[1].replace(/s$/i,'').replace(/ie$/ig,'y')}_id\tbigserial\tPRIMARY KEY\tNOT NULL,` : ``;
     return `\nCREATE ${rowData[0]} ${rowData[1]} (${primary_key}`;

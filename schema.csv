@@ -1,33 +1,24 @@
 entity_type,entity_name,data_type,data_limits,is_foreign_key,foreign_tuple,foreign_field,extras
 table,Users,,,,,,
-,first name,varchar,50,,,,NOT NULL
-,last name,varchar,50,,,,
-,account name,varchar,50,,,,
-,email,varchar,50,,,,UNIQUE NOT NULL
-,role,varchar,15,,,,
-,joined,DATETIME  WITH TIME ZONE,,,,,DEFAULT CURRENT_TIMESTAMP
+,first name,varchar,,,,,NOT NULL
+,last name,varchar,,,,,
+,username,varchar,,,,,
+,email,varchar,,,,,UNIQUE NOT NULL
+,user role,varchar,,,,,
+,joined,timestamp,,,,,DEFAULT CURRENT_TIMESTAMP
 ,active,bool,,,,,DEFAULT false
-,password,varchar,255,,,,NOT NULL
+,user password,varchar,255,,,,NOT NULL
+,isteamleader,bool,,,,,
 ,telephone,varchar,35,,,,
 end,,,,,,,
 ,,,,,,,
-,,,,,,,
-table,"Internal Messaging
-",,,,,,
-,originating user,bigint,,"true
-",users,user id,"NOT NULL
-"
-,terminating user,bigint,,"true
-",users,user id,"NOT NULL
-"
-,message body,text,,,,,"NOT NULL
-"
-,message category,"varchar
-",30,,,"
-","DEFAULT 'message'
-"
-,message sent at,datetime with time zone,,,,,"DEFAULT CURRENT_TIMESTAMP
-"
+table,Internal Messaging,,,,,,
+,originating user,bigint,,true ,users ,user id,not null 
+,originating user,bigint,,true ,users,user id,not null 
+,terminating user,bigint,,true ,users,user id,not null 
+,message body,text,,,,,not null 
+,message category ,varCHAR   ,30,,,,"default ""message"""
+,message sent at,timestamp,,,,,DEFAULT CURRENT_TIMESTAMP
 ,message is delivered,bool,,,,,DEFAULT false
 ,message is read,bool,,,,,DEFAULT false
 ,message visible,bool,,,,,DEFAULT true
@@ -35,15 +26,10 @@ end,,,,,,,
 ,,,,,,,
 entity_type,entity_name,data_type,data_limits,is_foreign_key,foreign_tuple,foreign_field,extras
 ,,,,,,,
-table,"third party messaging
-",,,,,,
-,sending email,"text
-",,TRUE,users,email,NOT NULL
-,receiving email,"text
-",,"
-",,,NOT NULL
-,message body,"text
-",,,,,NOT NULL
+table,third party messaging,,,,,,
+,sending email,text ,,true ,users ,email ,not null 
+,receiving email,text ,,,,,not null 
+,message body,text,,,,,not null
 ,message category,varchar,30,,,,
 ,message sent at,datetime,,,,,DEFAULT CURRENT_TIMESTAMP
 ,message is_delivered,bool,,,,,DEFAULT false
@@ -53,100 +39,85 @@ table ,teams ,,,,,,
 ,team name,varchar,35,,,,NOT NULL
 ,team description,text,,,,,
 ,team motto,varchar,50,,,,
-,team lead,bigint,,TRUE,users,user id,"NOT NULL
-"
-,team event,bigint,,TRUE,events,event id,"NOT NULL
-"
+,team lead,bigint,,TRUE,users,user id,not null 
+,team event,bigint,,true ,teams ,team id,not null 
 ,team active,bool,,,,,DEFAULT true
-,team starting balance,"NUMERIC
-","10,2",,,,
-,team created at,datetime WITH TIME ZONE,,,,,DEFAULT CURRENT_TIMESTAMP
+,team starting balance ,numeric ,"10,2 ",,,,
+,team members,json,,,,,
+,team created at,timestamp,,,,,DEFAULT CURRENT_TIMESTAMP
 end,,,,,,,
 ,,,,,,,
-table,"events
-",,,,,,
+table,events,,,,,,
 ,event name,varchar,100,,,,not null
 ,event description,text,,,,,
 ,event words,json,,,,,
-,event added,datetime with time zone,,,,,DEFAULT CURRENT_TIMESTAMP
-,event starts at,datetime with time zone,,,,,not null
-,event ends  at,datetime with time zone,,,,,not null
+,event added,timestamp,,,,,DEFAULT CURRENT_TIMESTAMP
+,event starts at,timestamp,,,,,not null
+,event ends  at,timestamp,,,,,not null
 ,event active,bool,,,,,default true
 end,,,,,,,
 ,,,,,,,
 entity_type,entity_name,data_type,data_limits,is_foreign_key,foreign_tuple,foreign_field,extras
 ,,,,,,,
 table,words,,,,,,
-,"word title
-",varchar,35,,,,
+,word title ,varchar ,35,,,,not null
 ,word type,json,,,,,
-,word added,datetime with timezone,,,,,DEFAULT CURRENT_TIMESTAMP
+,word added,timestamp,,,,,DEFAULT CURRENT_TIMESTAMP
 ,word active,bool,,,,,DEFAULT true
 end,,,,,,,
 ,,,,,,,
 table,tags,,,,,,
 ,tag title,varchar,35,,,,not null
 ,tag description,text,,,,,
-,tag added,datetime with time zone,,,,,default current_timestamp
+,tag added,timestamp,,,,,default current_timestamp
 ,tag active,bool,,,,,default true
 end,,,,,,,
 ,,,,,,,
 table,word bids,,,,,,
-,escrow reference,bigint,,TRUE,"escrow
-",escrow id,NOT NULL
+,escrow reference,bigint,,TRUE,escrow,escrow id,NOT NULL
 ,bid amount,,,,,,
 ,bid team,,,,,,
 ,bid time,datetime,,,,,default current_timestamp
-,bid session,bigserial,,TRUE,sessions,session id,NOT NULL
+,bid session,bigint,,TRUE,sessions,session id,NOT NULL
 ,bid active,bool,,,,,default true
 ,bid won,bool,,,,,
-,end,,,,,,
+end,,,,,,,
 ,,,,,,,
 table,escrow,,,,,,
-"
-",team reference,bigint,,TRUE,"teams
-",team id,not null
-,"transaction amount
-",numeric,"10,2",,,,not null
+,team reference,bigint,,TRUE,teams ,team id,not null
+,transaction amount,numeric,"10,2",,,,not null
 ,transacrion type,varchar,23,,,,
 ,transaction user,bigint,,TRUE,users,user id,
-,transaction reference,"json
-",,,,,
-,transaction time,datetime with time zone,,,,,default current_timestamp
+,transaction reference,json,,,,,
+,transaction time,timestamp,,,,,default current_timestamp
 ,transaction session,bigint,,,,,
 ,initial balance,numeric,"10,2",,,,not null
-,"revised balance
-",numeric,"10,2",,,,
+,revised balance,numeric,"10,2",,,,
+,transaction active,bool,,,,,default true
 end,,,,,,,
 ,,,,,,,
 entity_type,entity_name,data_type,data_limits,is_foreign_key,foreign_tuple,foreign_field,extras
 ,,,,,,,
 table,password recovery,,,,,,
 ,user,bigint,,TRUE,user,user id,
-,reovery  key,"text
-",,,,,not null
-,"requested at
-",datetime with time zone,,,,,"default current_timestamp
-"
+,recovery  key,text,,,,,not null
+,requested at,timestamp,,,,,default current_timestamp
 ,active,bool,,,,,default true
 ,used,bool,,,,,default false
 end,,,,,,,
 ,,,,,,,
 table,word collections,,,,,,
-,collection name,varchar,50,,,,"not null
-"
+,collection name,varchar,50,,,,not null
 ,words,json,,,,,
 ,"created
-",datetime with time zone,,,,,default current_timestamp
+",timestamp,,,,,default current_timestamp
 ,,,,,,,
 end,,,,,,,
 ,,,,,,,
-table,"event word collections
-",,,,,,
-,event collection name,,,,,,
-,"
-event ",bigserial,,TRUE,events,event id,not null
+table,event word collections,,,,,,
+,event collection name,varchar,50,,,,not null
+,event reference,bigint,,TRUE,events,event id ,not null
 ,collection,json,,,,,
 ,active,bool,,,,,default true
-,added,datetime with time zone,,,,,default current_timestamp
+,added,timestamp,,,,,default current_timestamp
 end,,,,,,,
