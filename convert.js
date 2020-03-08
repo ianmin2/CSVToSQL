@@ -9,11 +9,12 @@ function fieldFormatter(rowData) {
         rowData[6] = rowData[6] != undefined? rowData[6].trim().replace(/\s/ig,"_").toLowerCase(): rowData[6];
 
         let foreign_key_associations = (rowData[4] != undefined && rowData[5] != undefined && rowData[6] != undefined) ? `\treferences ${rowData[5]}(${rowData[6]})` : ``;
-        let field_extras = (rowData[7] != undefined) ? `\t${rowData[7]}` : ``;
+        let field_extras = (rowData[7] != undefined) ? `\t${rowData[7].trim().replace(/^\"/ig,'').replace(/\"$/ig,'').replace(/\"\"/ig,'"').replace(/\'\'/ig,"'").replace(/\"/ig,"'")}` : ``;
+        field_extras = (field_extras.match(/^\'\'/ig)) ? field_extras.replace(/^\'/ig,'').replace(/\'$/ig,'').replace(/\''/ig,"'") : field_extras;
         let type_limit_info = rowData[3] != undefined ? `(${rowData[3].replace(/\"/ig,'')})` : ``;
         let type_info = rowData[2] != undefined ? `\t${rowData[2]}` : ``;
 
-        return `\n\t${rowData[1].toLowerCase().trim().replace(/\s/ig,"_")}${type_info}${type_limit_info}${foreign_key_associations}${field_extras.replace(/\"/ig,'\'')},`;
+        return `\n\t${rowData[1].toLowerCase().trim().replace(/\s/ig,"_")}${type_info}${type_limit_info}${foreign_key_associations}${field_extras},`;
 
     } else {
         return ``;
